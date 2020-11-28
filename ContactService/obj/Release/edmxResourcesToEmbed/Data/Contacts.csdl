@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CONTACTSDATAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CONTACT">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateofBirth" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="EMAILs" Relationship="CONTACTSDATAModel.FK__EMAIL__ContactId__25869641" FromRole="CONTACT" ToRole="EMAIL" />
+    <NavigationProperty Name="PHONENUMBERS" Relationship="CONTACTSDATAModel.FK__PHONENUMB__Conta__276EDEB3" FromRole="CONTACT" ToRole="PHONENUMBER" />
+  </EntityType>
+  <EntityContainer Name="CONTACTSDATAEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CONTACTS" EntityType="Self.CONTACT" />
+    <EntitySet Name="EMAILs" EntityType="CONTACTSDATAModel.EMAIL" />
+    <EntitySet Name="PHONENUMBERS" EntityType="CONTACTSDATAModel.PHONENUMBER" />
+    <AssociationSet Name="FK__EMAIL__ContactId__25869641" Association="CONTACTSDATAModel.FK__EMAIL__ContactId__25869641">
+      <End Role="CONTACT" EntitySet="CONTACTS" />
+      <End Role="EMAIL" EntitySet="EMAILs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PHONENUMB__Conta__276EDEB3" Association="CONTACTSDATAModel.FK__PHONENUMB__Conta__276EDEB3">
+      <End Role="CONTACT" EntitySet="CONTACTS" />
+      <End Role="PHONENUMBER" EntitySet="PHONENUMBERS" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="EMAIL">
+    <Key>
+      <PropertyRef Name="EID" />
+    </Key>
+    <Property Name="EID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+    <Property Name="Email1" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CONTACT" Relationship="CONTACTSDATAModel.FK__EMAIL__ContactId__25869641" FromRole="EMAIL" ToRole="CONTACT" />
+  </EntityType>
+  <EntityType Name="PHONENUMBER">
+    <Key>
+      <PropertyRef Name="PID" />
+    </Key>
+    <Property Name="PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+    <Property Name="PhoneNumber1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CONTACT" Relationship="CONTACTSDATAModel.FK__PHONENUMB__Conta__276EDEB3" FromRole="PHONENUMBER" ToRole="CONTACT" />
+  </EntityType>
+  <Association Name="FK__EMAIL__ContactId__25869641">
+    <End Type="CONTACTSDATAModel.CONTACT" Role="CONTACT" Multiplicity="1" />
+    <End Type="CONTACTSDATAModel.EMAIL" Role="EMAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CONTACT">
+        <PropertyRef Name="ContactId" />
+      </Principal>
+      <Dependent Role="EMAIL">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PHONENUMB__Conta__276EDEB3">
+    <End Type="CONTACTSDATAModel.CONTACT" Role="CONTACT" Multiplicity="1" />
+    <End Type="CONTACTSDATAModel.PHONENUMBER" Role="PHONENUMBER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CONTACT">
+        <PropertyRef Name="ContactId" />
+      </Principal>
+      <Dependent Role="PHONENUMBER">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
